@@ -1,0 +1,15 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<header>
+  <h2 id="main_title">
+    Welcome to {{title}}!
+  </h2>
+</header>
+<nav>
+</nav>
+<section>
+  <div *ngFor="let post of getBlogPosts()">
+    <app-blogpost [model]="post"></app-blogpost>
+  </div>
+</section>
+<footer>
+</footer>
