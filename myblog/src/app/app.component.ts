@@ -1,4 +1,3 @@
-import { BlogpostService } from './blogpost.service';
 import { Component } from '@angular/core';
 
 @Component({
@@ -8,13 +7,4 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'MyBlog';
-  service;
-
-  constructor(service: BlogpostService) {
-    this.service = service;
-  }
-
-  getBlogPosts() {
-    return this.service.getBlogPosts();
-  }
 }
