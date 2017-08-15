@@ -27,4 +27,9 @@ public class HomeController {
 		return posts;
 	}
 	
+	@RequestMapping(value="/posts", method=RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody String addPost(HttpServletRequest request, Model model) {
+		return "auth";
+	}
+	
 }
