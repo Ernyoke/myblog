@@ -5,6 +5,8 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class AuthenticationService {
 
+  private authenticated: boolean;
+
   constructor(private http: Http) { }
 
   login(credentials) {
@@ -16,16 +18,29 @@ export class AuthenticationService {
       headers: h
       })
       .map(response => {
-        if (response.status == 200) {
+        if (response.status === 200) {
           // localStorage.setItem('token', result.token)
+          this.authenticated = true;
           return true;
         }
+        this.authenticated = false;
         return false;
       });
   }
 
   logout() {
-    
+    console.log("logoutserv");
+    return this.http.get("/myblog/logout")
+      .subscribe(response => {},
+      (error: Response) => {
+        if (error.status === 404) {
+          this.authenticated = false;
+        }
+      });
+  }
+
+  isLogedIn() {
+    return this.authenticated;
   }
 
 }

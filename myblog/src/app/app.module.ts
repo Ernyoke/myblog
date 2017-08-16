@@ -13,6 +13,8 @@ import { NavigationComponent } from './navigation/navigation.component';
 import { AboutComponent } from './about/about.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { LoginComponent } from './login/login.component';
+import { ComposeComponent } from './compose/compose.component';
+import { LogoutComponent } from './logout/logout.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,9 @@ import { LoginComponent } from './login/login.component';
     NavigationComponent,
     AboutComponent,
     NotFoundComponent,
-    LoginComponent
+    LoginComponent,
+    ComposeComponent,
+    LogoutComponent
   ],
   imports: [
     BrowserModule,
@@ -33,6 +37,8 @@ import { LoginComponent } from './login/login.component';
       { path: 'home', component: HomeComponent },
       { path: 'about', component: AboutComponent },
       { path: 'login', component: LoginComponent },
+      { path: 'logout', component: LogoutComponent },
+      { path: 'compose', component: ComposeComponent },
       { path: '**', component: NotFoundComponent }
     ])
   ],

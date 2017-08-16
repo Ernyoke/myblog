@@ -2,15 +2,19 @@ import { AuthenticationService } from './../services/authentication.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-navigation',
-  templateUrl: './navigation.component.html',
-  styleUrls: ['./navigation.component.css']
+  selector: 'app-logout',
+  templateUrl: './logout.component.html',
+  styleUrls: ['./logout.component.css']
 })
-export class NavigationComponent implements OnInit {
+export class LogoutComponent implements OnInit {
 
   constructor(public authService: AuthenticationService) { }
 
   ngOnInit() {
+  }
+
+  ngAfterViewInit() {
+    this.authService.logout();
   }
 
 }
