@@ -1,0 +1,11 @@
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <ul class="nav navbar-nav">
+      <li routerLinkActive="active current"><a routerLink="/home">Home</a></li>
+      <li routerLinkActive="active current"><a routerLink="/about">About</a></li>
+      <li *ngIf="authService.isLogedIn()" routerLinkActive="active current"><a routerLink="/compose">Compose</a></li>
+      <li routerLinkActive="active current"><a routerLink="/login">Login</a></li>
+      <li *ngIf="authService.isLogedIn()" routerLinkActive="active current"><a routerLink="/logout">Logout</a></li>
+    </ul>
+  </div>
+</nav>

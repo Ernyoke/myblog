@@ -1,13 +1,10 @@
 package com.ervin.myblog;
 
-import java.sql.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.ervin.myblog.dao.UserDAO;
-import com.ervin.myblog.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -25,9 +22,6 @@ public class HomeController {
     @Autowired
     private PostDAO postDAO;
 
-    @Autowired
-    private UserDAO userDAO;
-
     @RequestMapping(value="/posts", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody List<Post> getPosts(HttpServletRequest request, Model model) {
         List<Post> posts = postDAO.getPosts();
@@ -35,8 +29,12 @@ public class HomeController {
     }
 
     @RequestMapping(value="/post", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody Post getPost(@RequestParam(value="id", required=false) Integer id) {
-        return postDAO.getPost(id);
+    public @ResponseBody Post getPost(@RequestParam(value="id", required=false) Integer id) throws IllegalArgumentException {
+        Post post = postDAO.getPost(id);
+        if (post == null) {
+            throw new IllegalArgumentException("No such post with id " + id);
+        }
+        return post;
     }
 
     @RequestMapping(value="/insertpost", method=RequestMethod.POST)
@@ -46,10 +44,29 @@ public class HomeController {
         response.setHeader("Location", getLocationForChildResource(request, newPost.getId()));
     }
 
+    @RequestMapping(value="/updatepost", method=RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void updatePost(@RequestBody Post post, HttpServletRequest request, HttpServletResponse response) {
+        postDAO.updatePost(post);
+        response.setHeader("Location", getLocationForChildResource(request, post.getId()));
+    }
+
+    @RequestMapping(value="/deletepost", method=RequestMethod.DELETE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deletePost(@RequestBody Integer id, HttpServletRequest request, HttpServletResponse response) {
+        postDAO.deletePost(id);
+        response.setHeader("Location", getLocationForChildResource(request, id));
+    }
+
     private String getLocationForChildResource(HttpServletRequest request, Object childIdentifier) {
         StringBuffer url = request.getRequestURL();
         UriTemplate template = new UriTemplate(url.append("/{childId}").toString());
         return template.expand(childIdentifier).toASCIIString();
     }
 
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler({IllegalArgumentException.class})
+    public void handleNotFound() {
+        // just return empty 404
+    }
 }

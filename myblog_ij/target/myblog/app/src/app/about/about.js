@@ -1,6 +1,5 @@
 angular.module( 'aboutModule', [
   'ui.router',
-  'placeholders',
   'ui.bootstrap'
 ])
 
@@ -13,16 +12,9 @@ angular.module( 'aboutModule', [
         templateUrl: 'about/about.tpl.html'
       }
     },
-    data:{ pageTitle: 'What is It?' }
+    data:{ pageTitle: 'About' }
   });
 })
 
 .controller( 'AboutCtrl', function AboutCtrl( $scope ) {
-  $scope.dropdownDemoItems = [
-    "The first choice!",
-    "And another choice for you.",
-    "but wait! A third!"
-  ];
-})
-
-;
+});

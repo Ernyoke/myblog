@@ -46,14 +46,16 @@ public class PostDAO {
     }
 
     @Transactional
-    public void updatePost(Post post) {
-        Session currentSession = sessionFactory.getCurrentSession();
-        currentSession.update(post);
+    public void updatePost(Post newPost) {
+        Post post = getPost(newPost.getId());
+        post.setTitle(newPost.getTitle());
+        post.setContent(newPost.getContent());
     }
 
     @Transactional
-    public void deletePost(Post post) {
+    public void deletePost(int id) {
         Session currentSession = sessionFactory.getCurrentSession();
+        Post post = getPost(id);
         currentSession.delete(post);
     }
 

@@ -1,0 +1,10 @@
+<section xmlns="http://www.w3.org/1999/html">
+    <form class="form-group" ng-submit="submitUpdate()">
+        <label for="usr">Title:</label>
+        <input type="hidden" value = "post.id" ng-model="fields.id">
+        <input type="text" class="form-control" id="title" ng-model="fields.title" ng-value="post.title">
+        <label for="comment">Content:</label>
+        <textarea class="form-control" rows="5" id="comment" ng-model="fields.content" ng-value="post.content"></textarea>
+        <button type="submit" class="btn btn-default">Submit</button>
+    </form>
+</section>

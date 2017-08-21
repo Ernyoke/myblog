@@ -1,0 +1,10 @@
+<article>
+  <span id="blog_post_date"> Created on: {{ getFormattedDate() }} </span>
+  <div>
+    <h2 id="blog_post_title"> {{ model.getTitle() }} </h2>
+  </div>
+  <span id="blog_post_author"> Author: {{ model.getAuthor() }} </span>
+  <div id="blog_post_content">
+    <p> {{ model.getContent() }} </p>
+  </div>
+</article>
