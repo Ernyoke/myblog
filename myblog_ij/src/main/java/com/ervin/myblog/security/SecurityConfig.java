@@ -31,7 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
         http.csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler)
-                .and().formLogin()
+                .and().formLogin().successHandler(authSuccess).failureHandler(authFailure)
                 .and().authorizeRequests().antMatchers("/app/**", "/posts", "/post/**", "/login").permitAll()
                 .anyRequest().authenticated();
 
