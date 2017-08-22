@@ -7,6 +7,7 @@ angular.module( 'ngBoilerplate', [
     'loginModule',
     'logoutModule',
     'blogPostModule',
+    'navigationModule',
     'toastr',
     'dateFilter',
     'ui.router'

@@ -4,6 +4,7 @@ angular.module("blogPostModule", [
     'ui.bootstrap',
     'blogPostService',
     'toastr',
+    'authenticationService',
     'dateFilter'
 ])
     .directive('blogPost', function () {
@@ -18,6 +19,7 @@ angular.module("blogPostModule", [
         }]
     };
 })
+    // configure the abstract state for the router. This will contain the view for the nested routers.
     .config(function config( $stateProvider ) {
         $stateProvider.state( 'blogpost', {
             url: '/blogpost/:id',
@@ -32,6 +34,7 @@ angular.module("blogPostModule", [
         });
     })
 
+    // configure the state for the "show" view. This is embedded into the parent abstract router.
     .config(function config( $stateProvider ) {
         $stateProvider.state( 'blogpost.show', {
             url: '/show',
@@ -45,6 +48,7 @@ angular.module("blogPostModule", [
         });
     })
 
+    // configure the state for the "edit" view. This is embedded into the parent abstract router.
     .config(function config( $stateProvider ) {
         $stateProvider.state( 'blogpost.edit', {
             url: '/edit',
@@ -71,7 +75,6 @@ angular.module("blogPostModule", [
                 });
 
             $scope.deletePost = function () {
-                console.log("DELETED");
                 BlogPostService.deletePost($scope.post.id).then(function (response) {
                         $scope.post = response.data;
                         toastr.success('Post deleted successfully!');

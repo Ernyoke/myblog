@@ -1,6 +1,6 @@
 <article>
-    <a ng-href="/myblog/app/index.html#!/blogpost/{{ post.id }}/edit">[Edit]</a>
-    <a ng-click="deletePost()">[Delete]</a>
+    <a ng-href="/myblog/app/index.html#!/blogpost/{{ post.id }}/edit" ng-if="LoginService.isLogedIn()">[Edit]</a>
+    <a ng-click="deletePost()" ng-if="LoginService.isLogedIn()">[Delete]</a>
 
     <div class="container" ui-view="blogpost"></div>
 
