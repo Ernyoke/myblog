@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -29,7 +30,7 @@ public class HomeController {
     }
 
     @RequestMapping(value="/post", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody Post getPost(@RequestParam(value="id", required=false) Integer id) throws IllegalArgumentException {
+    public @ResponseBody Post getPost(@RequestParam(value="id") Integer id) throws IllegalArgumentException {
         Post post = postDAO.getPost(id);
         if (post == null) {
             throw new IllegalArgumentException("No such post with id " + id);
@@ -48,14 +49,14 @@ public class HomeController {
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void updatePost(@RequestBody Post post, HttpServletRequest request, HttpServletResponse response) {
         postDAO.updatePost(post);
+        System.out.println(getLocationForChildResource(request, post.getId()));
         response.setHeader("Location", getLocationForChildResource(request, post.getId()));
     }
 
     @RequestMapping(value="/deletepost", method=RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deletePost(@RequestBody Integer id, HttpServletRequest request, HttpServletResponse response) {
+    public void deletePost(@RequestParam(value="id") Integer id) {
         postDAO.deletePost(id);
-        response.setHeader("Location", getLocationForChildResource(request, id));
     }
 
     private String getLocationForChildResource(HttpServletRequest request, Object childIdentifier) {
@@ -68,5 +69,11 @@ public class HomeController {
     @ExceptionHandler({IllegalArgumentException.class})
     public void handleNotFound() {
         // just return empty 404
+    }
+
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ExceptionHandler({DataIntegrityViolationException.class})
+    public void handleAlreadyExists() {
+        // just return empty 409
     }
 }

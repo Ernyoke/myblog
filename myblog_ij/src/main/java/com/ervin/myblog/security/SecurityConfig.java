@@ -1,4 +1,4 @@
-package com.ervin.myblog.com.ervin.myblog.security;
+package com.ervin.myblog.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;

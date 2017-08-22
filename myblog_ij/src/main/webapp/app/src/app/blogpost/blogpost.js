@@ -58,8 +58,8 @@ angular.module("blogPostModule", [
         });
     })
 
-    .controller( 'BlogPostCtrl', ['$scope', '$stateParams', 'BlogPostService',
-        function ( $scope , $stateParams, BlogPostService) {
+    .controller( 'BlogPostCtrl', ['$scope', '$stateParams', 'toastr', 'BlogPostService',
+        function ( $scope , $stateParams, toastr, BlogPostService) {
 
             BlogPostService.getSelectedPost($stateParams.id).then(function (response) {
                     $scope.post = response.data;
@@ -71,7 +71,15 @@ angular.module("blogPostModule", [
                 });
 
             $scope.deletePost = function () {
-                console.log("Delete post:" + $scope.post);
+                console.log("DELETED");
+                BlogPostService.deletePost($scope.post.id).then(function (response) {
+                        $scope.post = response.data;
+                        toastr.success('Post deleted successfully!');
+                    },
+                    function (error) {
+                        console.log(error);
+                        toastr.error('Could not delete post!');
+                    });
             };
         }])
 

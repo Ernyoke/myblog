@@ -1,4 +1,4 @@
-package com.ervin.myblog.com.ervin.myblog.security;
+package com.ervin.myblog.security;
 
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 

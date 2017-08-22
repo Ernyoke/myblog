@@ -4,7 +4,7 @@ angular.module('blogPostService', [])
             return $http.get('/myblog/posts');
         };
         this.getSelectedPost = function (id) {
-            return $http.get('/myblog/post?id=' +  id);
+            return $http.get('/myblog/post', {params: {id: id}});
         };
         this.createPost = function (post) {
             return $http.post('/myblog/insertpost', post);
@@ -13,6 +13,6 @@ angular.module('blogPostService', [])
             return $http.put('/myblog/updatepost', post);
         };
         this.deletePost = function (id) {
-            //return $http.delete('/myblog/deletepost', id);
+            return $http['delete']('/myblog/deletepost', {params: {id: id}});
         };
     });
