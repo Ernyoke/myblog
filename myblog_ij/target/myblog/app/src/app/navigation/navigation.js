@@ -1,7 +1,7 @@
 angular.module("navigationModule", [
     'ui.router',
     'ui.bootstrap',
-    'loginService'
+    'authenticationService'
 ])
 
     .directive('navBar', function () {

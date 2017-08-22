@@ -4,8 +4,9 @@ angular.module("blogPostModule", [
     'ui.bootstrap',
     'blogPostService',
     'toastr',
-    'loginService',
-    'dateFilter'
+    'authenticationService',
+    'dateFilter',
+    'previewFilter'
 ])
     .directive('blogPost', function () {
     return {

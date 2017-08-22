@@ -5,7 +5,8 @@ angular.module("blogPostModule", [
     'blogPostService',
     'toastr',
     'authenticationService',
-    'dateFilter'
+    'dateFilter',
+    'previewFilter'
 ])
     .directive('blogPost', function () {
     return {
