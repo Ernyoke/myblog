@@ -63,8 +63,13 @@ angular.module("blogPostModule", [
         });
     })
 
-    .controller( 'BlogPostCtrl', ['$scope', '$stateParams', 'toastr', 'BlogPostService',
-        function ( $scope , $stateParams, toastr, BlogPostService) {
+    .controller( 'BlogPostCtrl', ['$scope', '$stateParams', 'toastr', 'BlogPostService', 'LoginService',
+        function ( $scope , $stateParams, toastr, BlogPostService, LoginService) {
+
+            $scope.isLogedIn = function () {
+                console.log("asd");
+                return LoginService.isLogedIn();
+            };
 
             BlogPostService.getSelectedPost($stateParams.id).then(function (response) {
                     $scope.post = response.data;
