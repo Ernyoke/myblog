@@ -5,6 +5,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ervin.myblog.repositories.PostRepository;
+import com.ervin.myblog.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -13,7 +15,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import com.ervin.myblog.dao.PostDAO;
 import com.ervin.myblog.entity.Post;
 import org.springframework.web.util.UriTemplate;
 
@@ -21,17 +22,20 @@ import org.springframework.web.util.UriTemplate;
 public class HomeController {
 
     @Autowired
-    private PostDAO postDAO;
+    private PostRepository postRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @RequestMapping(value="/posts", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody List<Post> getPosts(HttpServletRequest request, Model model) {
-        List<Post> posts = postDAO.getPosts();
+        List<Post> posts = postRepository.getPosts();
         return posts;
     }
 
     @RequestMapping(value="/post", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody Post getPost(@RequestParam(value="id") Integer id) throws IllegalArgumentException {
-        Post post = postDAO.getPost(id);
+        Post post = postRepository.getPost(id);
         if (post == null) {
             throw new IllegalArgumentException("No such post with id " + id);
         }
@@ -41,14 +45,14 @@ public class HomeController {
     @RequestMapping(value="/insertpost", method=RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     public void insertPost(@RequestBody Post newPost, HttpServletRequest request, HttpServletResponse response) {
-        postDAO.insertPost(newPost);
+        userRepository.addPost(newPost);
         response.setHeader("Location", getLocationForChildResource(request, newPost.getId()));
     }
 
     @RequestMapping(value="/updatepost", method=RequestMethod.PUT)
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void updatePost(@RequestBody Post post, HttpServletRequest request, HttpServletResponse response) {
-        postDAO.updatePost(post);
+        postRepository.updatePost(post);
         System.out.println(getLocationForChildResource(request, post.getId()));
         response.setHeader("Location", getLocationForChildResource(request, post.getId()));
     }
@@ -56,7 +60,7 @@ public class HomeController {
     @RequestMapping(value="/deletepost", method=RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deletePost(@RequestParam(value="id") Integer id) {
-        postDAO.deletePost(id);
+        postRepository.deletePost(id);
     }
 
     private String getLocationForChildResource(HttpServletRequest request, Object childIdentifier) {

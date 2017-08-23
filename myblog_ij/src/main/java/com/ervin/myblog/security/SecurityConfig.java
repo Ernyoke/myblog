@@ -7,7 +7,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
@@ -27,8 +26,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private LogoutSuccess logoutSuccess;
 
     @Autowired
+    private UserDetailsServiceImpl userDetailsService;
+
+    @Autowired
     public void configAuthBuilder(AuthenticationManagerBuilder authManagerBuilder) throws Exception {
-        authManagerBuilder.inMemoryAuthentication().withUser("Ervin").password("asd").roles("ADMIN");
+//        authManagerBuilder.inMemoryAuthentication().withUser("Ervin").password("asd").roles("ADMIN");
+        authManagerBuilder.userDetailsService(userDetailsService);
     }
 
     @Override
