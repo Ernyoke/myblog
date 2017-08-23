@@ -28,7 +28,7 @@ public class HomeController {
     private UserRepository userRepository;
 
     @RequestMapping(value="/posts", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody List<Post> getPosts(HttpServletRequest request, Model model) {
+    public @ResponseBody List<Post> getPosts() {
         List<Post> posts = postRepository.getPosts();
         return posts;
     }
