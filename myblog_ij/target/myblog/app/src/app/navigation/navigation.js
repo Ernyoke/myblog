@@ -11,6 +11,9 @@ angular.module("navigationModule", [
             replace: true,
             restrict: 'EA',
             controller: function ($scope, LoginService) {
+                $scope.isLogedIn = function () {
+                    return LoginService.isLogedIn();
+                };
             }
         };
     });

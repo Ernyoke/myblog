@@ -1,6 +1,7 @@
 
 angular.module( 'logoutModule', [
-    'ui.router'
+    'ui.router',
+    'authenticationService'
 ])
     .config(function config( $stateProvider ) {
         $stateProvider.state( 'logout', {
@@ -15,7 +16,14 @@ angular.module( 'logoutModule', [
         });
     })
 
-    .controller( 'LogoutCtrl', function LogoutCtrl( $scope ) {
-        $scope.message = "Logout works";
-
+    .controller( 'LogoutCtrl', function LogoutCtrl( $scope, $location, LoginService ) {
+        var successHandler = function (response) {
+            $location.path('/');
+        };
+        var failureHandler = function (error) {
+            //
+        };
+        $scope.logout = function() {
+            LoginService.logout(successHandler, failureHandler);
+        };
     });

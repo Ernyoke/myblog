@@ -67,7 +67,8 @@ module.exports = {
             'vendor/placeholders/angular-placeholders-0.0.1-SNAPSHOT.min.js',
             'vendor/angular-ui-router/release/angular-ui-router.js',
             'vendor/angular-ui-utils/modules/route/route.js',
-            'vendor/angular-toastr/dist/angular-toastr.tpls.js'
+            'vendor/angular-toastr/dist/angular-toastr.tpls.js',
+            'vendor/ngstorage/ngStorage.js'
         ],
         css: [
             'vendor/angular-toastr/dist/angular-toastr.css'

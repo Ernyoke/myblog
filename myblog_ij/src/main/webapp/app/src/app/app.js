@@ -9,6 +9,7 @@ angular.module( 'ngBoilerplate', [
     'blogPostModule',
     'navigationModule',
     'toastr',
+    'ngStorage',
     'dateFilter',
     'ui.router'
 ])

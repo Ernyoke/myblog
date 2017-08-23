@@ -1,6 +1,8 @@
 
 angular.module( 'loginModule', [
-    'ui.router'
+    'ui.router',
+    'toastr',
+    'authenticationService'
 ])
     .config(function config( $stateProvider ) {
         $stateProvider.state( 'login', {
@@ -15,6 +17,14 @@ angular.module( 'loginModule', [
         });
     })
 
-    .controller( 'LoginCtrl', function LoginCtrl( $scope ) {
-        $scope.message = "Login works";
+    .controller( 'LoginCtrl', function LoginCtrl( $scope, $location, toastr, LoginService ) {
+        var successHandler = function (response) {
+            $location.path('/');
+        };
+        var failureHandler = function (error) {
+            toastr.error('Invalid username or password!');
+        };
+        $scope.login = function() {
+            LoginService.login($scope.credentials, successHandler, failureHandler);
+        };
     });

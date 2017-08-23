@@ -26,19 +26,19 @@
                         About
                     </a>
                 </li>
-                <li ui-sref-active="active" ng-if="!loginService.isLogedIn()">
+                <li ui-sref-active="active" ng-if="isLogedIn() == false">
                     <a href ui-sref="login">
                         <i class="fa fa-info-circle"></i>
                         Login
                     </a>
                 </li>
-                <li ui-sref-active="active" ng-if="loginService.isLogedIn()">
+                <li ui-sref-active="active" ng-if="isLogedIn()">
                     <a href ui-sref="compose">
                         <i class="fa fa-info-circle"></i>
                         Comp
                     </a>
                 </li>
-                <li ui-sref-active="active" ng-if="loginService.isLogedIn()">
+                <li ui-sref-active="active" ng-if="isLogedIn()">
                     <a href ui-sref="logout">
                         <i class="fa fa-info-circle"></i>
                         Logout
