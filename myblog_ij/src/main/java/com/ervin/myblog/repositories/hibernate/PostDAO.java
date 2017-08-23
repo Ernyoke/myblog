@@ -1,10 +1,10 @@
-package com.ervin.myblog.dao;
+package com.ervin.myblog.repositories.hibernate;
 
-import java.sql.Date;
 import java.util.List;
 
 import com.ervin.myblog.entity.Post;
-import com.ervin.myblog.entity.User;
+import com.ervin.myblog.repositories.PostRepository;
+import com.ervin.myblog.repositories.UserRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -13,14 +13,12 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 @Repository
-public class PostDAO {
+public class PostDAO implements PostRepository {
 
     @Autowired
     private SessionFactory sessionFactory;
 
-    @Autowired
-    private UserDAO userDAO;
-
+    @Override
     @Transactional(readOnly = true)
     public List<Post> getPosts() {
         Session currentSession = sessionFactory.getCurrentSession();
@@ -29,6 +27,7 @@ public class PostDAO {
         return posts;
     }
 
+    @Override
     @Transactional(readOnly = true)
     public Post getPost(int id) {
         Session currentSession = sessionFactory.getCurrentSession();
@@ -37,14 +36,7 @@ public class PostDAO {
         return query.getSingleResult();
     }
 
-    @Transactional
-    public void insertPost(Post post) {
-        post.setDate(new Date(System.currentTimeMillis()));
-        User author = userDAO.getUser(1);
-        post.setAuthor(author);
-        author.addPost(post);
-    }
-
+    @Override
     @Transactional
     public void updatePost(Post newPost) {
         Post post = getPost(newPost.getId());
@@ -52,6 +44,7 @@ public class PostDAO {
         post.setContent(newPost.getContent());
     }
 
+    @Override
     @Transactional
     public void deletePost(int id) {
         Session currentSession = sessionFactory.getCurrentSession();
