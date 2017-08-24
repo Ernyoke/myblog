@@ -68,4 +68,18 @@ public class User {
     public int hashCode() {
         return super.hashCode();
     }
+
+    @Override
+    public boolean equals(Object obj) {
+
+        if (obj == null) {
+            return false;
+        }
+
+        User other = (User)obj;
+        if (other.getUsername().equals(username)) {
+            return true;
+        }
+        return false;
+    }
 }

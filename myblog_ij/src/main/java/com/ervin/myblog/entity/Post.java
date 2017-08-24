@@ -86,4 +86,21 @@ public class Post {
     public int hashCode() {
         return super.hashCode();
     }
+
+    @Override
+    public boolean equals(Object obj) {
+
+        if (obj == null) {
+            return false;
+        }
+
+        Post other = (Post)obj;
+
+        if (other.getAuthor().equals(author) &&
+                other.getTitle().equals(title) &&
+                other.getContent().equals(content)) {
+            return true;
+        }
+        return false;
+    }
 }

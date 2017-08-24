@@ -2,30 +2,26 @@ package com.ervin.myblog;
 
 import java.util.List;
 
+import javax.persistence.NoResultException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.ervin.myblog.repositories.PostRepository;
-import com.ervin.myblog.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import com.ervin.myblog.entity.Post;
 import org.springframework.web.util.UriTemplate;
 
 @Controller
-public class HomeController {
+public class PostController {
 
     @Autowired
     private PostRepository postRepository;
-
-    @Autowired
-    private UserRepository userRepository;
 
     @RequestMapping(value="/posts", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody List<Post> getPosts() {
@@ -45,7 +41,7 @@ public class HomeController {
     @RequestMapping(value="/insertpost", method=RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     public void insertPost(@RequestBody Post newPost, HttpServletRequest request, HttpServletResponse response) {
-        userRepository.addPost(newPost);
+        postRepository.addPost(newPost);
         response.setHeader("Location", getLocationForChildResource(request, newPost.getId()));
     }
 
@@ -53,7 +49,6 @@ public class HomeController {
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void updatePost(@RequestBody Post post, HttpServletRequest request, HttpServletResponse response) {
         postRepository.updatePost(post);
-        System.out.println(getLocationForChildResource(request, post.getId()));
         response.setHeader("Location", getLocationForChildResource(request, post.getId()));
     }
 
@@ -72,6 +67,12 @@ public class HomeController {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler({IllegalArgumentException.class})
     public void handleNotFound() {
+        // just return empty 404
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler({NoResultException.class})
+    public void handleNoResult() {
         // just return empty 404
     }
 

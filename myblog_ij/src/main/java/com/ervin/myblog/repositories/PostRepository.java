@@ -8,6 +8,7 @@ public interface PostRepository {
 
     List<Post> getPosts();
     Post getPost(int id);
-    void updatePost(Post newPost);
+    void updatePost(Post newPost) throws IllegalArgumentException;
     void deletePost(int id);
+    void addPost(Post post);
 }
