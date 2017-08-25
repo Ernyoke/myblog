@@ -1,4 +1,4 @@
-package com.ervin.myblog;
+package com.ervin.myblog.controllers;
 
 import java.util.List;
 

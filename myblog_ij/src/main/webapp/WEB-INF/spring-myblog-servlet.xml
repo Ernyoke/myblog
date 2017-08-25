@@ -17,7 +17,9 @@
 		http://www.springframework.org/schema/tx/spring-tx.xsd">
 
     <!-- Add support for component scanning -->
-    <context:component-scan base-package="com.ervin.myblog" />
+    <context:component-scan base-package="com.ervin.myblog.controllers" />
+    <context:component-scan base-package="com.ervin.myblog.repositories" />
+    <context:component-scan base-package="com.ervin.myblog.entity" />
     <context:component-scan base-package="com.ervin.myblog.security" />
 
     <!-- Add support for conversion, formatting and validation support -->

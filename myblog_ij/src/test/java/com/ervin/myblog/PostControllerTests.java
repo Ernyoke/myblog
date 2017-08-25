@@ -1,12 +1,10 @@
 package com.ervin.myblog;
 
+import com.ervin.myblog.controllers.PostController;
 import com.ervin.myblog.entity.Post;
 import com.ervin.myblog.entity.User;
 import com.ervin.myblog.repositories.PostRepository;
-import com.ervin.myblog.repositories.UserRepository;
 import com.ervin.myblog.utils.Utils;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -17,9 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import javax.persistence.NoResultException;
-import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.hasSize;
