@@ -1,10 +1,10 @@
 package com.ervin.myblog.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.util.List;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonView;
 
 @Entity
 @Table(name = "MYBLOG_USERS")
@@ -13,13 +13,15 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ID")
+    @JsonView(value = JsView.Public.class)
     private int id;
 
     @Column(name="USER_NAME")
+    @JsonView(value = JsView.Public.class)
     private String username;
 
     @Column(name="PASSWORD")
-    @JsonIgnore
+    @JsonView(value = JsView.Internal.class)
     private String password;
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy="author")

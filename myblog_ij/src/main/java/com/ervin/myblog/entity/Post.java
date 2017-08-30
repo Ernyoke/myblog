@@ -1,5 +1,7 @@
 package com.ervin.myblog.entity;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 import java.sql.Date;
 
 import javax.persistence.*;
@@ -11,19 +13,24 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ID")
+    @JsonView(value = JsView.Public.class)
     private int id;
 
     @ManyToOne
     @JoinColumn(name="USER_ID", nullable=false)
+    @JsonView(value = JsView.Public.class)
     private User author;
 
     @Column(name="TITLE")
+    @JsonView(value = JsView.Public.class)
     private String title;
 
     @Column(name="CONTENT")
+    @JsonView(value = JsView.Public.class)
     private String content;
 
     @Column(name="CREATION_DATE")
+    @JsonView(value = JsView.Public.class)
     private Date date;
 
     public Post() {

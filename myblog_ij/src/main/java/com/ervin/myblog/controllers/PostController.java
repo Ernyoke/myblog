@@ -6,7 +6,9 @@ import javax.persistence.NoResultException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ervin.myblog.entity.JsView;
 import com.ervin.myblog.repositories.PostRepository;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -23,12 +25,14 @@ public class PostController {
     @Autowired
     private PostRepository postRepository;
 
+    @JsonView(value = JsView.Public.class)
     @RequestMapping(value="/posts", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody List<Post> getPosts() {
         List<Post> posts = postRepository.getPosts();
         return posts;
     }
 
+    @JsonView(value = JsView.Public.class)
     @RequestMapping(value="/post", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody Post getPost(@RequestParam(value="id") Integer id) throws IllegalArgumentException {
         Post post = postRepository.getPost(id);
