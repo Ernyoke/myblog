@@ -68,7 +68,13 @@ public class User {
 
     @Override
     public int hashCode() {
-        return super.hashCode();
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + id;
+        result = prime * result + ((username == null) ? 0 : username.hashCode());
+        result = prime * result + ((password == null) ? 0 : password.hashCode());
+        result = prime * result + ((posts == null) ? 0 : posts.hashCode());
+        return result;
     }
 
     @Override
@@ -78,10 +84,21 @@ public class User {
             return false;
         }
 
+        if (!User.class.isAssignableFrom(obj.getClass())) {
+            return false;
+        }
+
         User other = (User)obj;
+
+        if (this.username == null || other.username == null) {
+            return false;
+        }
+
         if (other.getUsername().equals(username)) {
             return true;
         }
         return false;
     }
+
+
 }

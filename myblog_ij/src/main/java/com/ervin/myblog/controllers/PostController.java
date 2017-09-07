@@ -25,16 +25,26 @@ public class PostController {
     @Autowired
     private PostRepository postRepository;
 
+    private final int postsPerPage = 10;
+
+
     @JsonView(value = JsView.Public.class)
-    @RequestMapping(value="/posts", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody List<Post> getPosts() {
-        List<Post> posts = postRepository.getPosts();
-        return posts;
+    @RequestMapping(value = "/posts", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    List<Post> getPage(@RequestParam(value = "page") Integer page) throws IllegalArgumentException {
+        if (page <= 0) {
+            throw new IllegalArgumentException("Invalid page number!");
+        } else {
+            int lowerLimit = page * postsPerPage - postsPerPage;
+            int upperLimit = page * postsPerPage;
+            return postRepository.getPosts(lowerLimit, upperLimit);
+        }
     }
 
     @JsonView(value = JsView.Public.class)
-    @RequestMapping(value="/post", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody Post getPost(@RequestParam(value="id") Integer id) throws IllegalArgumentException {
+    @RequestMapping(value = "/post", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    Post getPost(@RequestParam(value = "id") Integer id) throws IllegalArgumentException {
         Post post = postRepository.getPost(id);
         if (post == null) {
             throw new IllegalArgumentException("No such post with id " + id);
@@ -42,23 +52,23 @@ public class PostController {
         return post;
     }
 
-    @RequestMapping(value="/insertpost", method=RequestMethod.POST)
+    @RequestMapping(value = "/insertpost", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     public void insertPost(@RequestBody Post newPost, HttpServletRequest request, HttpServletResponse response) {
         postRepository.addPost(newPost);
         response.setHeader("Location", getLocationForChildResource(request, newPost.getId()));
     }
 
-    @RequestMapping(value="/updatepost", method=RequestMethod.PUT)
+    @RequestMapping(value = "/updatepost", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void updatePost(@RequestBody Post post, HttpServletRequest request, HttpServletResponse response) {
         postRepository.updatePost(post);
         response.setHeader("Location", getLocationForChildResource(request, post.getId()));
     }
 
-    @RequestMapping(value="/deletepost", method=RequestMethod.DELETE)
+    @RequestMapping(value = "/deletepost", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deletePost(@RequestParam(value="id") Integer id) {
+    public void deletePost(@RequestParam(value = "id") Integer id) {
         postRepository.deletePost(id);
     }
 

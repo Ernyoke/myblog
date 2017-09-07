@@ -1,7 +1,7 @@
 angular.module('blogPostService', [])
     .service('BlogPostService', function ($http) {
-        this.getAllPosts = function () {
-            return $http.get('/myblog/posts');
+        this.getPosts = function (page) {
+            return $http.get('/myblog/posts', {params: {page: page}});
         };
         this.getSelectedPost = function (id) {
             return $http.get('/myblog/post', {params: {id: id}});

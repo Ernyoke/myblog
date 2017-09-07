@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface PostRepository {
 
-    List<Post> getPosts();
+    List<Post> getPosts(int lowerLimit, int upperLimit);
     Post getPost(int id);
     void updatePost(Post newPost) throws IllegalArgumentException;
     void deletePost(int id);

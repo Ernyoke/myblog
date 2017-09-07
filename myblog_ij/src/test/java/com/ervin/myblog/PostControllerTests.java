@@ -54,8 +54,10 @@ public class PostControllerTests {
 
     @Test
     public void getPostsTest() throws Exception {
-        when(mockPostRepository.getPosts()).thenReturn(posts);
-        mockMvc.perform(get("/posts"))
+        int lowerLimit = 1;
+        int upperLimit = 10;
+        when(mockPostRepository.getPosts(lowerLimit, upperLimit)).thenReturn(posts);
+        mockMvc.perform(get("/posts").param("page", Integer.toString(1)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$", hasSize(2)))
@@ -67,7 +69,7 @@ public class PostControllerTests {
                 .andExpect(jsonPath("$[1].title", is("title2")))
                 .andExpect(jsonPath("$[1].content", is("content2")))
                 .andExpect(jsonPath("$[1].author.username", is("user1")));
-        verify(mockPostRepository, times(1)).getPosts();
+        verify(mockPostRepository, times(1)).getPosts(lowerLimit, upperLimit);
         verifyNoMoreInteractions(mockPostRepository);
     }
 

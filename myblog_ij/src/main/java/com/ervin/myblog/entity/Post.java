@@ -91,7 +91,14 @@ public class Post {
 
     @Override
     public int hashCode() {
-        return super.hashCode();
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + id;
+        result = prime * result + ((author == null) ? 0 : author.hashCode());
+        result = prime * result + ((title == null) ? 0 : title.hashCode());
+        result = prime * result + ((content == null) ? 0 : content.hashCode());
+        result = prime * result + ((date == null) ? 0 : date.hashCode());
+        return result;
     }
 
     @Override
@@ -101,11 +108,27 @@ public class Post {
             return false;
         }
 
+        if (!Post.class.isAssignableFrom(obj.getClass())) {
+            return false;
+        }
+
         Post other = (Post)obj;
 
-        if (other.getAuthor().equals(author) &&
-                other.getTitle().equals(title) &&
-                other.getContent().equals(content)) {
+        if (other.author == null || this.author == null) {
+            return false;
+        }
+
+        if (other.title == null || this.title == null) {
+            return false;
+        }
+
+        if (other.content == null || this.content == null) {
+            return false;
+        }
+
+        if (other.author.equals(author) &&
+                other.title.equals(title) &&
+                other.content.equals(content)) {
             return true;
         }
         return false;

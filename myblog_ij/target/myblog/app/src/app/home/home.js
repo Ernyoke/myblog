@@ -17,8 +17,8 @@ angular.module( 'homeModule', [
         });
     })
     .controller( 'HomeCtrl', ['$scope', 'BlogPostService', function ( $scope , BlogPostService) {
-
-        BlogPostService.getAllPosts().then(function (response) {
+        $scope.page = 1;
+        BlogPostService.getPosts($scope.page).then(function (response) {
                 $scope.posts = response.data;
             },
             function (error) {

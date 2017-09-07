@@ -1,6 +1,7 @@
 package com.ervin.myblog.repositories.hibernate;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.ervin.myblog.entity.Post;
@@ -29,13 +30,27 @@ public class PostDAO implements PostRepository {
     @Autowired
     private UserRepository userRepository;
 
+
     @Override
     @Transactional(readOnly = true)
-    public List<Post> getPosts() {
+    public List<Post> getPosts(int lowerLimit, int upperLimit) {
+        if (lowerLimit < 0) {
+            throw new IllegalArgumentException("Illegal lower limit value!");
+        }
+        if (upperLimit < lowerLimit) {
+            throw new IllegalArgumentException("Upper limit is lesser than lower limit!");
+        }
         Session currentSession = sessionFactory.getCurrentSession();
         Query<Post> query = currentSession.createQuery("from Post", Post.class);
         List<Post> posts = query.getResultList();
-        return posts;
+        if (posts != null) {
+            List<Post> postBetweenLimit = new ArrayList<>();
+            for (int i = lowerLimit; i < upperLimit && i < posts.size(); ++i) {
+                postBetweenLimit.add(posts.get(i));
+            }
+            return postBetweenLimit;
+        }
+        return null;
     }
 
     @Override

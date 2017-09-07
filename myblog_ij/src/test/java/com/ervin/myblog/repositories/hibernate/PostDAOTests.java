@@ -28,7 +28,7 @@ public class PostDAOTests {
     @Autowired
     private PostRepository postRepository;
 
-    private int postNr = 4;
+    private int postCount = 20;
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();;
@@ -43,19 +43,35 @@ public class PostDAOTests {
     }
 
     @Test
-    public void getPostsTest() {
-        List<Post> posts = postRepository.getPosts();
-        Assert.assertNotEquals(posts, null);
-        Assert.assertEquals(posts.size(), postNr);
+    public void getPostsPageTest() {
+        int lowerLimit = 5;
+        int upperLimit = 15;
+        List<Post> posts = postRepository.getPosts(lowerLimit, upperLimit);
+        iterateOverPosts(lowerLimit, upperLimit, posts);
+    }
 
-        IntStream.iterate(0, i -> i + 1)
-                .limit(postNr)
-                .forEach(i -> {
-                    Post post = posts.get(i);
-                    Assert.assertEquals(post.getId(), i + 1);
-                    Assert.assertEquals(post.getTitle(), "title" + i);
-                    Assert.assertEquals(post.getContent(), "content" + i);
-                });
+    @Test
+    public void getPostsPageTestExpectedPostCountBiggerThanExistingPostCount() {
+        int lowerLimit = 5;
+        int upperLimit = 100;
+        List<Post> posts = postRepository.getPosts(lowerLimit, upperLimit);
+        iterateOverPosts(lowerLimit, postCount, posts);
+    }
+
+    @Test
+    public void getPostsPageTestNegativeLowerLimit() {
+        int lowerLimit = -5;
+        int upperLimit = 15;
+        thrown.expect(IllegalArgumentException.class);
+        postRepository.getPosts(lowerLimit, upperLimit);
+    }
+
+    @Test
+    public void getPostsPageTestUpperLesserThanLower() {
+        int lowerLimit = 10;
+        int upperLimit = 5;
+        thrown.expect(IllegalArgumentException.class);
+        postRepository.getPosts(lowerLimit, upperLimit);
     }
 
     @Test
@@ -83,7 +99,7 @@ public class PostDAOTests {
         Date date = Utils.getCurrentDate();
         Post post = new Post(null, title, content, date);
         postRepository.addPost(post);
-        Post postAdded = postRepository.getPost(postNr + 1);
+        Post postAdded = postRepository.getPost(postCount + 1);
         Assert.assertNotEquals(postAdded, null);
         Assert.assertEquals(postAdded.getTitle(), title);
         Assert.assertEquals(postAdded.getContent(), content);
@@ -124,8 +140,6 @@ public class PostDAOTests {
         postRepository.getPost(id);
     }
 
-
-
     @Test
     public void deletePost() {
         int id = 1;
@@ -139,6 +153,22 @@ public class PostDAOTests {
         int id = 500;
         thrown.expect(IllegalArgumentException.class);
         postRepository.deletePost(id);
+    }
+
+    private void iterateOverPosts(int lowerLimit, int upperLimit, List<Post> posts) {
+        int expectedPostCount = upperLimit - lowerLimit;
+
+        Assert.assertNotEquals(posts, null);
+        Assert.assertEquals(expectedPostCount, posts.size());
+        IntStream.iterate(0, i -> i + 1)
+                .limit(expectedPostCount)
+                .forEach(i -> {
+                    Post post = posts.get(i);
+                    int postFix = lowerLimit + i;
+                    Assert.assertEquals(postFix + 1, post.getId());
+                    Assert.assertEquals("title" + postFix, post.getTitle());
+                    Assert.assertEquals("content" + postFix, post.getContent());
+                });
     }
 
 }
