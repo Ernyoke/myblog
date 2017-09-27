@@ -1,9 +1,21 @@
 # Myblog
 
-This project is a tutorial on how to wire together a Spring project with an Angular4 frontend project.
+This project is a tutorial on how to wire together a Spring project with an AngularJS frontend project.
 
 ## Build
-Both of the projects should contain their own README where the build steps are presented.
+Clone the project:
+`git clone https://github.com/Ernyoke/myblog.git`
 
-## Debug
-TODO
+### Back-end
+```
+mvn clean install
+```
+
+### Front-end
+(in `src\main\webapp\app` folder)
+```
+npm install
+bower install
+grunt build
+```
+
